@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/echio/project/MPRPC/build/src",
+  "command": "/usr/bin/g++-8 -Dmprpc_EXPORTS -I/home/echio/project/MPRPC/src/include -I/home/echio/project/MPRPC/example -g -fPIC -o CMakeFiles/mprpc.dir/mprpcapplication.cpp.o -c /home/echio/project/MPRPC/src/mprpcapplication.cpp",
+  "file": "/home/echio/project/MPRPC/src/mprpcapplication.cpp"
+},
+{
+  "directory": "/home/echio/project/MPRPC/build/src",
+  "command": "/usr/bin/g++-8 -Dmprpc_EXPORTS -I/home/echio/project/MPRPC/src/include -I/home/echio/project/MPRPC/example -g -fPIC -o CMakeFiles/mprpc.dir/mprpcconfig.cpp.o -c /home/echio/project/MPRPC/src/mprpcconfig.cpp",
+  "file": "/home/echio/project/MPRPC/src/mprpcconfig.cpp"
+},
+{
+  "directory": "/home/echio/project/MPRPC/build/src",
+  "command": "/usr/bin/g++-8 -Dmprpc_EXPORTS -I/home/echio/project/MPRPC/src/include -I/home/echio/project/MPRPC/example -g -fPIC -o CMakeFiles/mprpc.dir/rpcprovider.cpp.o -c /home/echio/project/MPRPC/src/rpcprovider.cpp",
+  "file": "/home/echio/project/MPRPC/src/rpcprovider.cpp"
+},
+{
+  "directory": "/home/echio/project/MPRPC/build/example/callee",
+  "command": "/usr/bin/g++-8  -I/home/echio/project/MPRPC/src/include -I/home/echio/project/MPRPC/example -g -o CMakeFiles/provider.dir/userservice.cpp.o -c /home/echio/project/MPRPC/example/callee/userservice.cpp",
+  "file": "/home/echio/project/MPRPC/example/callee/userservice.cpp"
+},
+{
+  "directory": "/home/echio/project/MPRPC/build/example/callee",
+  "command": "/usr/bin/g++-8  -I/home/echio/project/MPRPC/src/include -I/home/echio/project/MPRPC/example -g -o CMakeFiles/provider.dir/__/user.pb.cc.o -c /home/echio/project/MPRPC/example/user.pb.cc",
+  "file": "/home/echio/project/MPRPC/example/user.pb.cc"
+}
+]

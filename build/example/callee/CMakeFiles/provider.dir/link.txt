@@ -1,0 +1,1 @@
+/usr/bin/g++-8 -g -rdynamic CMakeFiles/provider.dir/userservice.cpp.o CMakeFiles/provider.dir/__/user.pb.cc.o -o ../../../bin/provider   -L/home/echio/project/MPRPC/lib  -Wl,-rpath,/home/echio/project/MPRPC/lib ../../../lib/libmprpc.so -lprotobuf 

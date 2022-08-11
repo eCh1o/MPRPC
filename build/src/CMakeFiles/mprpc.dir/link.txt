@@ -1,1 +1,0 @@
-/usr/bin/g++-8 -fPIC -g -shared -Wl,-soname,libmprpc.so -o ../../lib/libmprpc.so CMakeFiles/mprpc.dir/mprpcapplication.cpp.o CMakeFiles/mprpc.dir/mprpcconfig.cpp.o CMakeFiles/mprpc.dir/rpcprovider.cpp.o   -L/home/echio/project/MPRPC/lib 

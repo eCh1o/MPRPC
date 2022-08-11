@@ -1,6 +1,8 @@
 #include "rpcprovider.h"
 #include "mprpcapplication.h"
 #include "rpcheader.pb.h"
+#include "logger.h"
+#include "zookeeperutil.h"
 
 /*
 service_name => service描述
@@ -19,6 +21,7 @@ void RpcProvider::NotifyService(google::protobuf::Service *service)
     int methodCnt = pserviceDesc->method_count();
 
     // std::cout << "service_name" << service_name << std::endl;
+    LOG_INFO("service_name:%s", service_name.c_str());
     for (int i = 0; i < methodCnt; ++i)
     {
         //获取了服务对象指定下标的服务方法的描述（抽象描述
@@ -26,6 +29,7 @@ void RpcProvider::NotifyService(google::protobuf::Service *service)
         std::string method_name = pmethodDesc->name();
         service_info.m_methodMap.insert({method_name, pmethodDesc});
         // std::cout << "method_name" << method_name << std::endl;
+        LOG_INFO("method_name: %s", method_name.c_str());
     }
     service_info.m_service = service;
     m_serviceMap.insert({service_name, service_info});
@@ -49,7 +53,24 @@ void RpcProvider::Run()
                                         std::placeholders::_3));
     //设置muduo库的线程数量
     server.setThreadNum(4);
-
+    //把当前rpc节点上要发布的服务全部注册到zk上面，让rpc client可以从zk上发现服务
+    ZkClient zkCli;
+    zkCli.Start();
+    // service_name为永久性节点，  method_name为临时性节点
+    for (auto &sp : m_serviceMap)
+    {
+        // service_name
+        std::string service_path = "/" + sp.first;
+        zkCli.Create(service_path.c_str(), nullptr, 0);
+        for (auto &mp : sp.second.m_methodMap)
+        {
+            std::string method_path = service_path + "/" + mp.first;
+            char method_path_data[128] = {0};
+            sprintf(method_path_data, "%s:%d", ip.c_str(), port);
+            // ZOO_EPHEMERAL临时性节点
+            zkCli.Create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
+        }
+    }
     std::cout << "RpcProvider start service at ip: " << ip << "port: " << port << std::endl;
     //启动网络服务
     server.start();
@@ -109,7 +130,7 @@ void RpcProvider::onMessage(const muduo::net::TcpConnectionPtr &conn,
     std::cout << "rpc_header_str: " << rpc_header_str << std::endl;
     std::cout << "service_name: " << service_name << std::endl;
     std::cout << "method_name: " << method_name << std::endl;
-    std::cout << "args_str: : " << method_name << std::endl;
+    std::cout << "args_str: : " << args_str << std::endl;
     std::cout << "================================================" << std::endl;
 
     //获取service对象和method对象
@@ -162,5 +183,5 @@ void RpcProvider::SendRpcResponse(const muduo::net::TcpConnectionPtr &conn, goog
     {
         std::cout << "serialize response_str error!" << std::endl;
     }
-    conn->shutdown();//模拟http的短连接服务，由rpcprovider主动断开连接
+    conn->shutdown(); //模拟http的短连接服务，由rpcprovider主动断开连接
 }
